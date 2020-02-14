@@ -287,8 +287,18 @@ public class BleUtils {
         // 绘制的文本框左上角水平位置, 绘制的文本框左上角垂直位置,
         // 绘制的文本框水平宽度, 绘制的文本框垂直高度,
         // 文字大小, 字体风格)
-        api.drawText("自编号："+number, 4, 50, 40, 20, 4);
-        api.drawText("序列号："+serialNum, 4, 56, 40, 20, 4);
+        String numberStr = "自编号:"+number;
+        if (number.length()>15){
+            api.drawText(numberStr, 4, 50, 40, 20, 3);
+        }else{
+            api.drawText(numberStr, 4, 50, 40, 20, 4);
+        }
+        String serialNumStr = "序列号:"+ serialNum;
+        if (serialNumStr.length() > 15){
+            api.drawText(serialNumStr, 4, 56, 40, 20, 3);
+        }else{
+            api.drawText(serialNumStr, 4, 56, 40, 20, 4);
+        }
 
         // 结束绘图任务提交打印
         return api.commitJob();
