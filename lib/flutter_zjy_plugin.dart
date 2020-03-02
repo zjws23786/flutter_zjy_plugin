@@ -34,9 +34,9 @@ class FlutterZjyPlugin {
   }
 
   //打印二维码
-  static Future<bool>  print2dBarcode(String qrCode,String number,String serialNum) async {
+  static Future<bool>  print2dBarcode(String qrCode,String number,String serialNum,String printNum) async {
     final bool print2dBarcode = await _channel.invokeMethod('print2dBarcode',
-        <String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum});
+        <String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
     return print2dBarcode;
   }
 }

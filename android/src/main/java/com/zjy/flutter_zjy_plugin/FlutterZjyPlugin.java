@@ -54,7 +54,8 @@ public class FlutterZjyPlugin implements FlutterPlugin, MethodCallHandler {
       String qrCode = call.argument("qrCode");
       String number = call.argument("number");
       String serialNum = call.argument("serialNum");
-      result.success(bleUtils.print2dBarcode(qrCode,number,serialNum));
+      String printNum = call.argument("printNum");
+      result.success(bleUtils.print2dBarcode(qrCode,number,serialNum,printNum));
     }else {
       result.notImplemented();
     }

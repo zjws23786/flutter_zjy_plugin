@@ -274,7 +274,7 @@ public class BleUtils {
     }
 
     // 打印二维码
-    public boolean print2dBarcode(String qrCode,String number,String serialNum) {
+    public boolean print2dBarcode(String qrCode,String number,String serialNum,String printNum) {
         // 开始绘图任务，传入参数(页面宽度, 页面高度)
         api.startJob(48, 66, 0);
 
@@ -300,8 +300,15 @@ public class BleUtils {
             api.drawText(serialNumStr, 4, 56, 40, 20, 4);
         }
 
-        // 结束绘图任务提交打印
-        return api.commitJob();
+        if (printNum == null){
+            // 结束绘图任务提交打印
+            return api.commitJob();
+        }else{
+            Bundle param = getPrintParam(Integer.parseInt(printNum), 0);
+            return api.commitJobWithParam(param);
+        }
+
+
     }
 
     // 打印图片
