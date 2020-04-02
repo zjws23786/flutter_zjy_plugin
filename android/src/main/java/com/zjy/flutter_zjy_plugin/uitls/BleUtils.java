@@ -3,6 +3,7 @@ package com.zjy.flutter_zjy_plugin.uitls;
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.dothantech.lpapi.LPAPI;
 import com.dothantech.printer.IDzPrinter;
@@ -12,7 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.flutter.plugin.common.EventChannel;
+
 public class BleUtils {
+
+    private EventChannel.EventSink eventSink;
+    private final Handler mHandler = new Handler();
 
     /********************************************************************************************************************************************/
     // DzPrinter连接打印功能相关
@@ -33,22 +39,33 @@ public class BleUtils {
                 case Connected:
                 case Connected2:
                     // 打印机连接成功，发送通知，刷新界面提示
-//                    mHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            onPrinterConnected(printer);
-//                        }
-//                    });
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (eventSink != null){
+                                ConstraintsMap params = new ConstraintsMap();
+                                params.putString("event","connect");
+                                params.putString("value","打印机连接成功");
+                                eventSink.success(params.toMap());
+                            }
+                        }
+                    });
                     break;
 
                 case Disconnected:
                     // 打印机连接失败、断开连接，发送通知，刷新界面提示
-//                    mHandler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            onPrinterDisconnected();
-//                        }
-//                    });
+
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (eventSink != null){
+                                ConstraintsMap params = new ConstraintsMap();
+                                params.putString("event","connect");
+                                params.putString("value","打印机连接失败");
+                                eventSink.success(params.toMap());
+                            }
+                        }
+                    });
                     break;
 
                 default:
@@ -148,7 +165,7 @@ public class BleUtils {
             List<String> list = new ArrayList<>();
             for (IDzPrinter.PrinterAddress item:pairedPrinters){
                 list.add(item.shownName);
-                setConnectBlePrint(item.shownName);
+//                setConnectBlePrint(item.shownName);
             }
             map.put("bleList",list);
 //            System.out.println("蓝牙列表::"+list.toString());
@@ -160,6 +177,33 @@ public class BleUtils {
         map.put("openState",1);
 
         return map;
+    }
+
+    //真正开始连接打印机
+    public void connectPrinterConnected(EventChannel.EventSink eventSink,String shownName){
+        this.eventSink = eventSink;
+        IDzPrinter.PrinterAddress printer = null;
+        for (IDzPrinter.PrinterAddress item:pairedPrinters){
+            if (item.shownName.equals(shownName)){
+                printer = item;
+                break;
+            }
+        }
+        if (printer != null) {
+            // 连接选择的打印机
+            if (api.openPrinterByAddress(printer)) {
+                // 连接打印机的请求提交成功，刷新界面提示
+                return;
+            }
+        }
+
+        // 连接打印机失败，刷新界面提示
+        if (eventSink != null){
+            ConstraintsMap params = new ConstraintsMap();
+            params.putString("event","connect");
+            params.putString("value","连接打印机失败");
+            eventSink.success(params.toMap());
+        }
     }
 
     /**
@@ -193,7 +237,7 @@ public class BleUtils {
         for (IDzPrinter.PrinterAddress item:pairedPrinters){
             if (item.shownName.equals(shownName)){
                 if (api.openPrinterByAddress(item)) {
-                    System.out.println("Android底层：：打印机连接成功");
+//                    System.out.println("Android底层：：打印机连接成功");
                     return 1;
                 }
                 break;

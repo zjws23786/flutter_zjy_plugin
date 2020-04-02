@@ -6,6 +6,7 @@ import com.zjy.flutter_zjy_plugin.uitls.BleUtils;
 import com.zjy.flutter_zjy_plugin.uitls.ConstraintsMap;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -14,10 +15,38 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterZjyPlugin */
 public class FlutterZjyPlugin implements FlutterPlugin, MethodCallHandler {
+  private MethodChannel mMethodChannel;
+  //事件派发对象
+  private EventChannel.EventSink eventSink;
+  private EventChannel eventChannel;
+  //事件派发流
+  private EventChannel.StreamHandler streamHandler = new EventChannel.StreamHandler() {
+    @Override
+    public void onListen(Object arguments, EventChannel.EventSink sinks) {
+      eventSink = sinks;
+//      if (eventSink != null){
+//        ConstraintsMap params = new ConstraintsMap();
+//        params.putString("event","demoEvent");
+//        params.putString("value","value is 10");
+//        eventSink.success(params.toMap());
+//      }
+    }
+
+    @Override
+    public void onCancel(Object arguments) {
+//      eventSink = null;
+    }
+  };
+
+  //此处是新的插件加载注册方式
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_zjy_plugin");
-    channel.setMethodCallHandler(new FlutterZjyPlugin());
+    mMethodChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_zjy_plugin");
+    mMethodChannel.setMethodCallHandler(this);
+
+    eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(),"flutter_zjy_plugin_event");
+    eventChannel.setStreamHandler(streamHandler);
+
   }
 
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
@@ -44,8 +73,24 @@ public class FlutterZjyPlugin implements FlutterPlugin, MethodCallHandler {
       params.putMap("openBle", bleUtils.isOpenBle());
       System.out.println("Android底层集合：："+params.toMap().toString());
       result.success(params.toMap());
+    }else if (call.method.equals("connectPrinterConnected")){ //开始连接打印机
+      if (eventSink != null){
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+      }
+      String shownName = call.argument("shownName");
+      bleUtils.connectPrinterConnected(eventSink,shownName);
     }else if (call.method.equals("isPrinterConnected")){ //对应蓝牙的打印机是否连接成功
       result.success(bleUtils.isPrinterConnected());
+
+//      if (eventSink != null){
+//        ConstraintsMap params = new ConstraintsMap();
+//        params.putString("event","demoEvent");
+//        params.putString("value","value is 10");
+//        eventSink.success(params.toMap());
+//      }
+
     }else if (call.method.equals("setConnectBlePrint")){  //连接对应蓝牙的打印机
       String shownName = call.argument("shownName");
       int flag = bleUtils.setConnectBlePrint(shownName);

@@ -1,10 +1,48 @@
 import 'dart:async';
-
 import 'package:flutter/services.dart';
 
+
+typedef void EventHandler(Object event);
 class FlutterZjyPlugin {
   static const MethodChannel _channel =
-      const MethodChannel('flutter_zjy_plugin');
+  const MethodChannel('flutter_zjy_plugin');
+
+  StreamSubscription<dynamic> _eventSubscripton;
+//  FlutterZjyPlugin(){
+//    //初始化事件
+//    initEvent();
+//  }
+
+//  initEvent(){
+//    _eventSubscripton = _eventChannelFor()
+//        .receiveBroadcastStream()
+//        .listen(eventListener,onError: errorListener);
+//  }
+
+  static listenEvent(EventHandler onEvent, EventHandler onError) {
+    EventChannel("flutter_zjy_plugin_event").
+    receiveBroadcastStream()
+        .listen(onEvent,onError: onEvent);
+  }
+
+
+  void eventListener(dynamic event){
+//    Map<dynamic,dynamic> map = event;
+//    switch(map['event']){
+//      case "connect":
+//        String value = map["value"];
+//
+//        break;
+//    }
+  }
+
+  void errorListener(Object obj){
+
+  }
+
+  EventChannel _eventChannelFor(){
+    return EventChannel("flutter_zjy_plugin_event");
+  }
 
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
@@ -18,6 +56,12 @@ class FlutterZjyPlugin {
     print("打印内容：："+response.toString());
     Map<dynamic,dynamic> mapObj = response["openBle"];
     return mapObj;
+  }
+
+  //连接打印机
+  static Future<void> connectPrinterConnected(String shownName) async{
+    await _channel.invokeMethod(
+        'connectPrinterConnected', <String, dynamic>{'shownName': shownName});
   }
 
   //打印机是否连接成功

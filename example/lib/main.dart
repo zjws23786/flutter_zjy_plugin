@@ -18,7 +18,26 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     initPlatformState();
+
+    initEevent();
+  }
+
+  Future<void> initEevent() async {
+//    FlutterZjyPlugin plugin = new FlutterZjyPlugin();
+    //添加监听者
+    FlutterZjyPlugin.listenEvent((event){
+      Map<dynamic,dynamic> map = event;
+      switch(map['event']){
+        case "connect":
+          String value = map["value"];
+
+          break;
+      }
+    }, (object){
+
+    });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -51,54 +70,57 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Container(
-          margin: EdgeInsets.only(top: 50,left: 50),
-          child: Column(
-            children: <Widget>[
-              Text('Running on: $_platformVersion\n'),
-              RaisedButton(
-                onPressed: ()async{
+            margin: EdgeInsets.only(top: 50,left: 50),
+            child: Column(
+              children: <Widget>[
+                Text('Running on: $_platformVersion\n'),
+                RaisedButton(
+                  onPressed: ()async{
 //                  int flag = await FlutterZjyPlugin.isPrinterConnected;
 //                  print("打印内容::"+flag.toString());
-                  Map<dynamic,dynamic> mapObj = await FlutterZjyPlugin.isOpenBle;
+                    Map<dynamic,dynamic> mapObj = await FlutterZjyPlugin.isOpenBle;
 //                  print("打印内容::"+string);
-                  print(mapObj);
-                  int openState = mapObj["openState"];
-                  print(openState.toString());
-                  if(openState == 1){
-                    bool flag = mapObj["bleConnectedSuccess"]??false;
-                    print(flag);
-                    if(!flag){
-                      bleList = mapObj["bleList"];
-                      setState(() {
-                        bleList;
-                      });
+//                  print(mapObj);
+                    int openState = mapObj["openState"];
+                    print("蓝牙状态="+openState.toString());
+                    List<dynamic> bleList = mapObj["bleList"];
+                    print("蓝牙列表="+bleList[0].toString());
+                    await FlutterZjyPlugin.connectPrinterConnected(bleList[0].toString());
+                    if(openState == 1){
+                      bool flag = mapObj["bleConnectedSuccess"]??false;
+                      print(flag);
+                      if(!flag){
+                        bleList = mapObj["bleList"];
+                        setState(() {
+                          bleList;
+                        });
 //                      print(list[0]);
 //                    showAlertDialog(context,bleList);
-                    }else{
-                      print("蓝牙连接成功");
+                      }else{
+                        print("蓝牙连接成功");
+                      }
                     }
-                  }
-                },
-                child: Text("测试调用底层代码",style:
-                TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "请选择对应蓝牙",
-                  style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
+                  },
+                  child: Text("测试调用底层代码",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "请选择对应蓝牙",
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
 //                width: MediaQuery.of(context).size.width,
-                height: 40,
-                decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(width: 1, color: Color(0xffeeeeee)),
-                    )),
-              ),
-              bleList==null ? Container():Column(
+                  height: 40,
+                  decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(width: 1, color: Color(0xffeeeeee)),
+                      )),
+                ),
+                bleList==null ? Container():Column(
                   children: bleList.asMap().keys.map((index) {
                     return RawMaterialButton(
                       child: Container(
@@ -123,20 +145,20 @@ class _MyAppState extends State<MyApp> {
                     );
                   }).toList(),
                 ),
-              RaisedButton(
-                onPressed: ()async{
-                  String qrCode = "http://www.equipmentsafety.cn/?recode=201810061727081030604";
-                  String number = "SRX00395";
-                  String serialNum = "XUG0143SJJRL02484";
-                  bool flag = await FlutterZjyPlugin.print2dBarcode(qrCode,number,serialNum);
-                  print("打印状态：："+flag.toString());
+                RaisedButton(
+                  onPressed: ()async{
+                    String qrCode = "http://www.equipmentsafety.cn/?recode=201810061727081030604";
+                    String number = "SRX00395";
+                    String serialNum = "XUG0143SJJRL02484";
+                    bool flag = await FlutterZjyPlugin.print2dBarcode(qrCode,number,serialNum,'1');
+                    print("打印状态：："+flag.toString());
 
-                },
-                child: Text("调用对应蓝牙的打印机",style:
-                TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
-              ),
-            ],
-          )
+                  },
+                  child: Text("调用对应蓝牙的打印机",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
+              ],
+            )
         ),
       ),
     );
@@ -205,4 +227,6 @@ class _MyAppState extends State<MyApp> {
           );
         });
   }
+
+
 }
