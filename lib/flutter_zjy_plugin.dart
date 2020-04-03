@@ -22,7 +22,7 @@ class FlutterZjyPlugin {
   static listenEvent(EventHandler onEvent, EventHandler onError) {
     EventChannel("flutter_zjy_plugin_event").
     receiveBroadcastStream()
-        .listen(onEvent,onError: onEvent);
+        .listen(onEvent,onError: onError);
   }
 
 
