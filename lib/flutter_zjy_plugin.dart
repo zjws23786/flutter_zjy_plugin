@@ -83,4 +83,19 @@ class FlutterZjyPlugin {
         <String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
     return print2dBarcode;
   }
+
+  static Future<void> iosBlueToothConnected() async {
+    await _channel.invokeMethod(
+        'iosBlueToothConnected');
+  }
+
+  static Future<void> iosPrintLabel(String qrCode,String number,String serialNum,String printNum) async {
+    await _channel.invokeMethod(
+        'iosPrintLabel',<String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
+  }
+
+  static Future<void> iosClosePrint() async {
+    await _channel.invokeMethod(
+        'iosClosePrint');
+  }
 }

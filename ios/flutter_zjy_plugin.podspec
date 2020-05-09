@@ -18,6 +18,10 @@ A new Flutter plugin.
   s.dependency 'Flutter'
   s.platform = :ios, '8.0'
 
+   # 引入Classes文件夹下所有的*.a库
+    s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
+    s.vendored_libraries = '**/*.a'
+
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
 end

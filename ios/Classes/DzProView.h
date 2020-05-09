@@ -1,12 +1,19 @@
 //
 //  DzProView.h
-//  Pods
+//  DzPrinterParser
 //
-//  Created by 花家章 on 2020/5/6.
+//  Created by 蔡俊杰 on 16/3/8.
+//  Copyright © 2019 Dothantech. All rights reserved.
 //
 
-#ifndef DzProView_h
-#define DzProView_h
+#import <UIKit/UIKit.h>
 
+@interface DzProView : UIView
 
-#endif /* DzProView_h */
++ (void)show:(NSString *)message;
+
+@property (atomic, strong) UIWindow *window;
+@property (atomic, strong) UIView   *hud;
+@property (atomic, strong) UILabel  *label;
+
+@end

@@ -1,12 +1,28 @@
 //
 //  DzProgressView.h
-//  Pods
+//  DzPrinterParser
 //
-//  Created by 花家章 on 2020/5/6.
+//  Created by 蔡俊杰 on 15/5/14.
+//  Copyright © 2019 Dothantech. All rights reserved.
 //
 
-#ifndef DzProgressView_h
-#define DzProgressView_h
+#import <UIKit/UIKit.h>
 
+@interface DzProgressView : UIView
 
-#endif /* DzProgressView_h */
++ (void)show:(NSString *)message;
++ (void)showSuccess:(NSString *)message;
++ (void)showError:(NSString *)message;
++ (void)showState:(NSString *)message;
++ (void)showLoad;
++ (void)showLoad:(NSTimeInterval)timeInterval;
++ (void)dismiss;
+
+@property (atomic, strong) UIWindow                 *window;
+@property (atomic, strong) UIView                   *view;
+@property (atomic, strong) UIToolbar                *hud;
+@property (atomic, strong) UIActivityIndicatorView  *spinner;
+@property (atomic, strong) UIImageView              *image;
+@property (atomic, strong) UILabel                  *label;
+
+@end

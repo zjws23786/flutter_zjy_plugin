@@ -41,5 +41,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+        <string>Allow App use bluetooth?</string>
+        <key>NSBluetoothPeripheralUsageDescription</key>
+        <string>Allow App use bluetooth?</string>
+        <key>UIBackgroundModes</key>
+        <array>
+            <string>bluetooth-central</string>
+            <string>bluetooth-peripheral</string>
+        </array>
+        <key>io.flutter.embedded_views_preview</key>
+        <true/>
 </dict>
 </plist>

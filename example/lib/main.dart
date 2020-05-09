@@ -157,6 +157,30 @@ class _MyAppState extends State<MyApp> {
                   child: Text("调用对应蓝牙的打印机",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
+                RaisedButton(
+                  onPressed: ()async{
+                    await FlutterZjyPlugin.iosBlueToothConnected();
+                  },
+                  child: Text("IOS蓝牙连接",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
+                RaisedButton(
+                  onPressed: ()async{
+                    String qrCode = "http://www.equipmentsafety.cn/?recode=201810061727081030604";
+                    String number = "SRX00395";
+                    String serialNum = "XUG0143SJJRL02484";
+                    await FlutterZjyPlugin.iosPrintLabel(qrCode,number,serialNum,'2');
+                  },
+                  child: Text("IOS打印功能",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
+                RaisedButton(
+                  onPressed: ()async{
+                    await FlutterZjyPlugin.iosClosePrint();
+                  },
+                  child: Text("IOS断开打印机连接",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
               ],
             )
         ),
