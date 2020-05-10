@@ -146,6 +146,7 @@ static int printCount;
          }];
     }else{
         ShowDismissMark(@"打印完成")
+        [LPAPI closePrinter];
     }
 }
 

@@ -189,7 +189,7 @@ class _MyAppState extends State<MyApp> {
                 ),
                 RaisedButton(
                   onPressed: ()async{
-                    await FlutterZjyPlugin.iosClosePrint();
+                    await FlutterZjyPlugin.iosClosePrint;
                   },
                   child: Text("IOS断开打印机连接",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),

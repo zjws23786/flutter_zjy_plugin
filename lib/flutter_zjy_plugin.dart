@@ -59,7 +59,7 @@ class FlutterZjyPlugin {
   }
 
   //连接打印机
-  static Future<void> connectPrinterConnected(String shownName) async{
+  static Future<void>  connectPrinterConnected(String shownName) async{
     await _channel.invokeMethod(
         'connectPrinterConnected', <String, dynamic>{'shownName': shownName});
   }
@@ -78,7 +78,7 @@ class FlutterZjyPlugin {
   }
 
   //打印二维码
-  static Future<bool>  print2dBarcode(String qrCode,String number,String serialNum,String printNum) async {
+  static Future<bool> print2dBarcode(String qrCode,String number,String serialNum,String printNum) async {
     final bool print2dBarcode = await _channel.invokeMethod('print2dBarcode',
         <String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
     return print2dBarcode;
@@ -104,7 +104,7 @@ class FlutterZjyPlugin {
         'iosPrintLabel',<String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
   }
 
-  static Future<void> iosClosePrint() async {
+  static Future<void> get iosClosePrint async {
     await _channel.invokeMethod(
         'iosClosePrint');
   }
