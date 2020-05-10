@@ -17,43 +17,53 @@ static int printCount;
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"getPlatformVersion" isEqualToString:call.method]) {
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
-  }else if([@"iosBlueToothConnected" isEqualToString:call.method]){
-//            [LPAPI openPrinter:@""
-//                   completion:^(BOOL isSuccess)
-//            {
-//                if (isSuccess)
-//                {
-//                    NSLog(@"连接成功");
-//                }
-//                else
-//                {
-//                    NSLog(@"连接失败");
-//                }
-//            }];
-      
-      
-          [LPAPI scanPrinters:YES
-                   completion:^(NSArray *scanedPrinterNames)
-           {
-               NSLog(@"搜索到的打印机列表：%@", scanedPrinterNames);
-           }
-      didOpenedPrinterHandler:^(BOOL isSuccess)
-           {
-               if (isSuccess)
-               {
-                   NSLog(@"连接成功");
-      
-                   // 获取当前连接的打印机详情
-                   PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
-               }
-               else
-               {
-                   NSLog(@"连接失败");
-               }
-           }];
-      
-      
-      
+  }else if([@"iosOpenPrinter" isEqualToString:call.method]){
+      NSDictionary* argsMap = call.arguments;
+      NSString* printerName = argsMap[@"shownName"];
+            [LPAPI openPrinter:printerName
+                   completion:^(BOOL isSuccess)
+            {
+                if (isSuccess)
+                {
+                    NSLog(@"连接成功");
+                    result([NSString stringWithFormat:@"1"]);
+                }
+                else
+                {
+                    NSLog(@"连接失败");
+                    result([NSString stringWithFormat:@"0"]);
+                }
+            }];
+  }else if([@"iosBlueToothSearch" isEqualToString:call.method]){
+                [LPAPI scanPrinters:NO
+                         completion:^(NSArray *scanedPrinterNames)
+                 {
+                     NSLog(@"搜索到的打印机列表：%@", scanedPrinterNames);
+                    if (scanedPrinterNames == nil || scanedPrinterNames.count < 1) {
+                        NSDictionary* dict = @{@"state":@"0"};
+                        result(dict);
+//                        result([NSString stringWithFormat:@"0"]);
+                    }else{
+//                        result([NSString stringWithFormat:@"1"]);
+                        NSDictionary* dict = @{@"state":@"1",@"bleList":scanedPrinterNames};
+                        result(dict);
+                    }
+                 }
+            didOpenedPrinterHandler:^(BOOL isSuccess)
+                 {
+                     if (isSuccess)
+                     {
+                         NSLog(@"连接成功");
+                        result([NSString stringWithFormat:@"2"]);
+                         // 获取当前连接的打印机详情
+                         PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
+                     }
+                     else
+                     {
+                         NSLog(@"连接失败");
+                         result([NSString stringWithFormat:@"3"]);
+                     }
+                 }];
   }else if([@"iosPrintLabel" isEqualToString:call.method]){
       NSDictionary* argsMap = call.arguments;
       NSString* qrCode = argsMap[@"qrCode"];

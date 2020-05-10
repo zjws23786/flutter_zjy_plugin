@@ -84,11 +84,21 @@ class FlutterZjyPlugin {
     return print2dBarcode;
   }
 
-  static Future<void> iosBlueToothConnected() async {
-    await _channel.invokeMethod(
-        'iosBlueToothConnected');
+  //搜索ios蓝牙打印机列表
+  static Future<Map<dynamic,dynamic>> iosBlueToothSearch() async {
+    Map<dynamic,dynamic> response = await _channel.invokeMethod(
+        'iosBlueToothSearch');
+    return response;
   }
 
+  //连接ios指定名字的打印机
+  static Future<String> iosOpenPrinter(String shownName) async {
+    String response = await _channel.invokeMethod(
+        'iosOpenPrinter', <String, dynamic>{'shownName': shownName});
+    return response;
+  }
+
+  //开始打印二维码
   static Future<void> iosPrintLabel(String qrCode,String number,String serialNum,String printNum) async {
     await _channel.invokeMethod(
         'iosPrintLabel',<String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});

@@ -159,9 +159,14 @@ class _MyAppState extends State<MyApp> {
                 ),
                 RaisedButton(
                   onPressed: ()async{
-                    await FlutterZjyPlugin.iosBlueToothConnected();
+                    Map<dynamic,dynamic> mapObj  = await FlutterZjyPlugin.iosBlueToothSearch();
+                    bleList = mapObj["bleList"];
+                    setState(() {
+                      bleList;
+                    });
+                    print("ios flutter打印结果"+mapObj.toString());
                   },
-                  child: Text("IOS蓝牙连接",style:
+                  child: Text("IOS蓝牙搜索",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
                 RaisedButton(
@@ -172,6 +177,14 @@ class _MyAppState extends State<MyApp> {
                     await FlutterZjyPlugin.iosPrintLabel(qrCode,number,serialNum,'2');
                   },
                   child: Text("IOS打印功能",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
+                (bleList==null || bleList.length < 1)? Container():
+                RaisedButton(
+                  onPressed: ()async{
+                    await FlutterZjyPlugin.iosOpenPrinter(bleList[0].toString());
+                  },
+                  child: Text("连接ios搜索列表第一个蓝牙",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
                 RaisedButton(
