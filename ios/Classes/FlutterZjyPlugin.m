@@ -97,13 +97,13 @@ static int printCount;
       
       // 水平居中打印文本
       [LPAPI setItemHorizontalAlignment:1];
-      NSString* numberStr = [@"自编号:" stringByAppendingString: number];
+      NSString* numberStr = [@"管理编号:" stringByAppendingString: number];
       [LPAPI drawText:numberStr
                     x:3
                     y:50
                 width:40
                height:5
-           fontHeight:6.5];
+           fontHeight:4.5];
       
       NSString* serialNumStr = [@"序列号:" stringByAppendingString: serialNum];
       [LPAPI drawText:serialNumStr

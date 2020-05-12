@@ -331,7 +331,7 @@ public class BleUtils {
         // 绘制的文本框左上角水平位置, 绘制的文本框左上角垂直位置,
         // 绘制的文本框水平宽度, 绘制的文本框垂直高度,
         // 文字大小, 字体风格)
-        String numberStr = "自编号:"+number;
+        String numberStr = "管理编号:"+number;
         if (number.length()>15){
             api.drawText(numberStr, 4, 50, 40, 20, 3);
         }else{
