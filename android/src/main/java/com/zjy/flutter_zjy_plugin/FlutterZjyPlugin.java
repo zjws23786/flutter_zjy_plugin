@@ -103,6 +103,7 @@ public class FlutterZjyPlugin implements FlutterPlugin, MethodCallHandler {
       result.success(bleUtils.print2dBarcode(qrCode,number,serialNum,printNum));
     }else if (call.method.equals("getConnectSuccessBleName")){  //获取连接成功后打印机的名字
       String bleName = bleUtils.getConnectSuccessBleName();
+      System.out.println("获取连接成功后打印机的名字：："+bleName);
       result.success(bleName);
     }else {
       result.notImplemented();

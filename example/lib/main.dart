@@ -194,6 +194,13 @@ class _MyAppState extends State<MyApp> {
                   child: Text("IOS断开打印机连接",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
+                RaisedButton(
+                  onPressed: ()async{
+                    await FlutterZjyPlugin.getConnectSuccessBleName;
+                  },
+                  child: Text("获取连接打印机的名字",style:
+                  TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
+                ),
               ],
             )
         ),

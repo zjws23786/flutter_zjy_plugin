@@ -104,6 +104,14 @@ class FlutterZjyPlugin {
         'iosPrintLabel',<String,dynamic>{"qrCode":qrCode,"number":number,"serialNum":serialNum,"printNum":printNum});
   }
 
+  //开始打印二维码
+  static Future<String> get getConnectSuccessBleName async {
+
+    var response = await _channel.invokeMethod('getConnectSuccessBleName');
+    print("连接打印机名字：："+response.toString());
+    return response;
+  }
+
   static Future<void> get iosClosePrint async {
     await _channel.invokeMethod(
         'iosClosePrint');
