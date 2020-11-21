@@ -19,6 +19,7 @@ public class BleUtils {
 
     private EventChannel.EventSink eventSink;
     private final Handler mHandler = new Handler();
+    private String connectSuccessBleName = "";
 
     /********************************************************************************************************************************************/
     // DzPrinter连接打印功能相关
@@ -193,6 +194,8 @@ public class BleUtils {
             // 连接选择的打印机
             if (api.openPrinterByAddress(printer)) {
                 // 连接打印机的请求提交成功，刷新界面提示
+                connectSuccessBleName = printer.shownName;
+                getConnectSuccessBleName();
                 return;
             }
         }
@@ -204,6 +207,10 @@ public class BleUtils {
             params.putString("value","连接打印机失败");
             eventSink.success(params.toMap());
         }
+    }
+
+    public String getConnectSuccessBleName(){
+        return connectSuccessBleName;
     }
 
     /**
