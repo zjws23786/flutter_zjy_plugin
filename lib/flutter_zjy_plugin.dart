@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 
-typedef void EventHandler(Object event);
+typedef void EventHandler(dynamic event);
 class FlutterZjyPlugin {
   static const MethodChannel _channel =
   const MethodChannel('flutter_zjy_plugin');
 
-  StreamSubscription<dynamic> _eventSubscripton;
+  // StreamSubscription<dynamic> _eventSubscripton;
 //  FlutterZjyPlugin(){
 //    //初始化事件
 //    initEvent();
