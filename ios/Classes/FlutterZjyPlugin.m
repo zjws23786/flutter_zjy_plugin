@@ -56,7 +56,8 @@ static int printCount;
                          NSLog(@"连接成功");
                         result([NSString stringWithFormat:@"2"]);
                          // 获取当前连接的打印机详情
-                         PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
+                         [LPAPI connectingPrinterDetailInfos];
+//                         PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
                      }
                      else
                      {
