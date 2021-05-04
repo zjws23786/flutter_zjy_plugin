@@ -98,6 +98,13 @@ class FlutterZjyPlugin {
     return response;
   }
 
+  //ios读取当前连接的打印机的的名称
+  static Future<String> iosConnectingPrinterName() async {
+    String response = await _channel.invokeMethod(
+        'iosConnectingPrinterName');
+    return response;
+  }
+
   //开始打印二维码
   static Future<void> iosPrintLabel(String qrCode,String number,String serialNum,String printNum) async {
     await _channel.invokeMethod(
