@@ -113,8 +113,7 @@ class FlutterZjyPlugin {
 
   //开始打印二维码
   static Future<String> get getConnectSuccessBleName async {
-
-    var response = await _channel.invokeMethod('getConnectSuccessBleName');
+    var response = await _channel.invokeMethod('iosConnectingPrinterName');
     print("连接打印机名字：："+response.toString());
     return response;
   }

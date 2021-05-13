@@ -36,9 +36,8 @@ static int printCount;
             }];
   }else if([@"iosConnectingPrinterName" isEqualToString:call.method]){
       // 获取当前连接的打印机详情
-      [LPAPI connectingPrinterDetailInfos];
       PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
-//      result(pi.deviceName);
+      result(pi.deviceName);
       result([NSString stringWithFormat:@"%@",pi.deviceName]);
   }else if([@"iosBlueToothSearch" isEqualToString:call.method]){
                 [LPAPI scanPrinters:NO
@@ -62,8 +61,9 @@ static int printCount;
                          NSLog(@"连接成功");
                          result([NSString stringWithFormat:@"2"]);
                          // 获取当前连接的打印机详情
-//                         [LPAPI connectingPrinterDetailInfos];
-//                         PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
+                         [LPAPI connectingPrinterDetailInfos];
+                         PrinterInfo *pi = [LPAPI connectingPrinterDetailInfos];
+                         NSLog(@"%s%@","打印机名称",pi.deviceName);
 //                         result(pi);
                          
                      }
