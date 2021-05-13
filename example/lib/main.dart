@@ -199,7 +199,7 @@ class _MyAppState extends State<MyApp> {
                     var bleName = await FlutterZjyPlugin.getConnectSuccessBleName;
                     print("打印机名称："+bleName);
                   },
-                  child: Text("获取连接打印机的名字",style:
+                  child: Text("获取连接打印机的名字 ",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
               ],

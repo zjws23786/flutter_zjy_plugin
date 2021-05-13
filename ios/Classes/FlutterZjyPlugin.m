@@ -30,7 +30,7 @@ static int printCount;
                 }
                 else
                 {
-                    NSLog(@"连接失败");
+                    NSLog(@"连接失败 ");
                     result([NSString stringWithFormat:@"0"]);
                 }
             }];
