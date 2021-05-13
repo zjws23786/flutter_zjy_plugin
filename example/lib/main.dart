@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -196,8 +198,14 @@ class _MyAppState extends State<MyApp> {
                 ),
                 ElevatedButton(
                   onPressed: ()async{
-                    var bleName = await FlutterZjyPlugin.getConnectSuccessBleName;
-                    print("打印机名称："+bleName);
+                    if(Platform.isAndroid){
+                      var bleName = await FlutterZjyPlugin.getConnectSuccessBleName;
+                      print("android打印机名称："+bleName);
+                    }else if(Platform.isIOS){
+                      var bleName = await FlutterZjyPlugin.iosConnectingPrinterName();
+                      print("ios打印机名称："+bleName);
+                    }
+
                   },
                   child: Text("获取连接打印机的名字 ",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
