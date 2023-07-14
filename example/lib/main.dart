@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  List bleList;
+  List? bleList;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               children: <Widget>[
                 Text('Running on: $_platformVersion\n'),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: ()async{
 //                  int flag = await FlutterZjyPlugin.isPrinterConnected;
 //                  print("打印内容::"+flag.toString());
@@ -123,14 +123,14 @@ class _MyAppState extends State<MyApp> {
                       )),
                 ),
                 bleList==null ? Container():Column(
-                  children: bleList.asMap().keys.map((index) {
+                  children: bleList!.asMap().keys.map((index) {
                     return RawMaterialButton(
                       child: Container(
                         height: 70,
                         padding: EdgeInsets.only(left: 15, right: 15),
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          bleList[index],
+                          bleList![index],
                           style: TextStyle(
                               color: Color(0xff666666), fontSize: 15),
                         ),
@@ -142,12 +142,12 @@ class _MyAppState extends State<MyApp> {
                             )),
                       ),
                       onPressed: ()async{
-                        FlutterZjyPlugin.setConnectBlePrint(bleList[index]);
+                        FlutterZjyPlugin.setConnectBlePrint(bleList![index]);
                       },
                     );
                   }).toList(),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: ()async{
                     String qrCode = "http://www.equipmentsafety.cn/?recode=201810061727081030604";
                     String number = "SRX00395";
@@ -159,7 +159,7 @@ class _MyAppState extends State<MyApp> {
                   child: Text("调用对应蓝牙的打印机",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: ()async{
                     Map<dynamic,dynamic> mapObj  = await FlutterZjyPlugin.iosBlueToothSearch();
                     bleList = mapObj["bleList"];
@@ -171,7 +171,7 @@ class _MyAppState extends State<MyApp> {
                   child: Text("IOS蓝牙搜索",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: ()async{
                     String qrCode = "http://www.equipmentsafety.cn/?recode=201810061727081030604";
                     String number = "SRX00395";
@@ -181,15 +181,15 @@ class _MyAppState extends State<MyApp> {
                   child: Text("IOS打印功能",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
-                (bleList==null || bleList.length < 1)? Container():
-                RaisedButton(
+                (bleList==null || bleList!.length < 1)? Container():
+                ElevatedButton(
                   onPressed: ()async{
-                    await FlutterZjyPlugin.iosOpenPrinter(bleList[0].toString());
+                    await FlutterZjyPlugin.iosOpenPrinter(bleList![0].toString());
                   },
                   child: Text("连接ios搜索列表第一个蓝牙",style:
                   TextStyle(fontSize: 18,color: Colors.red,fontWeight: FontWeight.bold),),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: ()async{
                     await FlutterZjyPlugin.iosClosePrint;
                   },
